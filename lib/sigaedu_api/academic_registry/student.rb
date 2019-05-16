@@ -36,6 +36,7 @@ module SigaeduApi
               @students << { 
                 'ingresso': attribute_by_position(data, 0), 
                 'curso': attribute_by_position(data, 1) ,
+                'identificador_curso': course[:id],
                 'campus': attribute_by_position(data, 2), 
                 'polo': attribute_by_position(data, 3),
                 'tipo_oferta': attribute_by_position(data, 4), 
