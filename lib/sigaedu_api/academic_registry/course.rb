@@ -5,7 +5,7 @@ module SigaeduApi
   module AcademicRegistry
     class Course
       def initialize(login, password)
-        @uri = 'http://academico.ifms.edu.br/administrativo/alunos/panorama'
+        @uri = 'https://academico.ifms.edu.br/administrativo/alunos/panorama'
         @login = login
         @password = password
         @api = Api.new

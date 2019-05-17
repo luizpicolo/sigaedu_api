@@ -6,7 +6,7 @@ class Api
   def initialize
     @mechanize = Mechanize.new
     @mechanize.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    @mechanize.get("http://academico.ifms.edu.br/administrativo/")
+    @mechanize.get("https://academico.ifms.edu.br/administrativo/")
   end
 
   def mechanize

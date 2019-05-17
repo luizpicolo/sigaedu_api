@@ -5,7 +5,7 @@ module SigaeduApi
   module AcademicRegistry
     class Student
       def initialize(login, password)
-        @uri = 'http://academico.ifms.edu.br/administrativo/alunos/panorama'
+        @uri = 'https://academico.ifms.edu.br/administrativo/alunos/panorama'
         @students = []
         @login = login
         @password = password
@@ -22,7 +22,7 @@ module SigaeduApi
       end
 
       def get_image(data)
-        "http://academico.ifms.edu.br/administrativo/pessoa_fisicas/foto/#{attribute_by_position(data, 7)}"
+        "https://academico.ifms.edu.br/administrativo/pessoa_fisicas/foto/#{attribute_by_position(data, 7)}"
       end
 
       def get_data
