@@ -12,18 +12,20 @@ module SigaeduApi
         @api.form(login, password)
       end
 
-      def get_data
+      def get_data(campus = nil)
         array = []
         page = @api.mechanize.get(@uri)
         data = page.body.scan(/<option value="([1-9]+)">(\D+)<\/option>/)
         data.each do |d|
           course = d.last.force_encoding('UTF-8')
-          new_data = course.scan(/;([^>]*) -([^>]*)/).first
-          array << {
-            'id': d[0], 
-            'curso': new_data[0].strip, 
-            'tipo_oferta': new_data[1].strip
-          }
+          if course.scan(/([^>]*)&gt;/)[0][0].strip == campus
+            new_data = course.scan(/;([^>]*) -([^>]*)/).first
+            array << {
+              'id': d[0],
+              'curso': new_data[0].strip,
+              'tipo_oferta': new_data[1].strip
+            }
+          end
         end
 
         array
