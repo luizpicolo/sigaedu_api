@@ -22,7 +22,7 @@ module SigaeduApi
       end
 
       def get_image(data)
-        "https://academico.ifms.edu.br/administrativo/pessoa_fisicas/foto/#{attribute_by_position(data, 7)}"
+        "https://academico.ifms.edu.br/administrativo/pessoa_fisicas/foto/#{attribute_by_position(data, 7).to_i}"
       end
 
       def get_data(campus = nil)
@@ -42,7 +42,7 @@ module SigaeduApi
                 'tipo_oferta': attribute_by_position(data, 4),
                 'turno': attribute_by_position(data, 5),
                 'matrícula': attribute_by_position(data, 6),
-                'ra': attribute_by_position(data, 7),
+                'ra': attribute_by_position(data, 7).to_i,
                 'estudante': get_name(data, 8),
                 'foto': get_image(data),
                 'cpf': attribute_by_position(data, 9),
