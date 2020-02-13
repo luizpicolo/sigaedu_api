@@ -21,6 +21,10 @@ module SigaeduApi
         !data.nil? ? attribute_by_position(data, i).scan(/>([^>]*)</)[0][0] : ''
       end
 
+      def get_id(data, i)
+        !data.nil? ? attribute_by_position(data, i).scan(/href\s*=\s*"([^"]*)"/)[0][0].split('/')[3] : ''
+      end
+
       def get_image(data)
         "https://academico.ifms.edu.br/administrativo/pessoa_fisicas/foto/#{attribute_by_position(data, 7).to_i}"
       end
@@ -34,6 +38,7 @@ module SigaeduApi
           _data.each do |data|
             if attribute_by_position(data, 0) != ""
               @students << {
+                'id': get_id(data, 8),
                 'ingresso': attribute_by_position(data, 0),
                 'curso': attribute_by_position(data, 1) ,
                 'identificador_curso': course[:id],
