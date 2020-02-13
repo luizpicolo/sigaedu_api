@@ -1,8 +1,4 @@
-#require "singleton"
-
 class Api
-  #include Singleton
-
   def initialize
     @mechanize = Mechanize.new
     @mechanize.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
