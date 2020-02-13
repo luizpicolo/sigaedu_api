@@ -41,7 +41,7 @@ module SigaeduApi
                 'polo': attribute_by_position(data, 3),
                 'tipo_oferta': attribute_by_position(data, 4),
                 'turno': attribute_by_position(data, 5),
-                'matrícula': attribute_by_position(data, 6),
+                'matricula': attribute_by_position(data, 6),
                 'ra': attribute_by_position(data, 7).to_i,
                 'estudante': get_name(data, 8),
                 'foto': get_image(data),
