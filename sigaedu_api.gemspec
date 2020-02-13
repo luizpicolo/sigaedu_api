@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Luiz Picolo"]
   spec.email         = ["luizpicolo@gmail.com"]
 
-  spec.summary       = "teste"
-  spec.description   = "teste"
+  spec.summary       = "SigaEdu API"
+  spec.description   = "Gem para gerar uma API com o objetivo de consumir dados do sistemas acadêmico do IFMS"
   spec.homepage      = "http://www.ifms.edu.br"
   spec.license       = "MIT"
 
