@@ -24,7 +24,7 @@ module SigaeduApi
         attribute_by_position(page, 1)
         
         @student_data << {
-          'id': student_id,
+          'id_estudante': student_id,
           'turma': attribute_by_position(page, 1)
         }
 
