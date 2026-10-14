@@ -4,7 +4,7 @@ Cliente Ruby para consultar dados acadêmicos do SIGA Edu do IFMS.
 
 ## Requisitos
 
-- Ruby 3.1 ou superior
+- Ruby 4.0 ou superior
 
 ## Instalação
 
@@ -41,7 +41,7 @@ Depois de clonar o repositório, instale as dependências com `bundle install` e
 bundle exec rake spec
 ```
 
-O CI executa os specs em Ruby 3.1, 3.2 e 3.3.
+O CI executa os specs em Ruby 4.0 e instala Rails 8.1 como dependência de desenvolvimento para validar a compatibilidade da gem.
 
 ## Licença
 
