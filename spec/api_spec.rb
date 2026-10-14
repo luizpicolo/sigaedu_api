@@ -3,10 +3,13 @@ RSpec.describe SigaeduApi::Api do
   let(:password_field) { instance_double("Mechanize::Form::Field", value: nil) }
   let(:form) { instance_double("Mechanize::Form") }
   let(:page) { instance_double("Mechanize::Page", forms: [form]) }
-  let(:mechanize) { instance_double(Mechanize, page: page) }
+  let(:http) { instance_double("Net::HTTP::Persistent") }
+  let(:agent) { instance_double("Mechanize::HTTP::Agent", http: http) }
+  let(:mechanize) { instance_double(Mechanize, page: page, agent: agent) }
 
   before do
     allow(mechanize).to receive(:get)
+    allow(http).to receive(:cert_store=)
     allow(login_field).to receive(:value=)
     allow(password_field).to receive(:value=)
     allow(form).to receive(:field_with).with(name: "data[Usuario][login]").and_return(login_field)
@@ -18,6 +21,12 @@ RSpec.describe SigaeduApi::Api do
   it "opens the academic system using the supplied client" do
     described_class.new(mechanize: mechanize)
     expect(mechanize).to have_received(:get).with(described_class::BASE_URL)
+  end
+
+  it "adds the current RNP intermediate certificate without disabling TLS verification" do
+    described_class.new(mechanize: mechanize)
+
+    expect(http).to have_received(:cert_store=).with(be_a(OpenSSL::X509::Store))
   end
 
   it "submits the login form" do

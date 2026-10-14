@@ -33,6 +33,10 @@ student_data.get_data(student_id)
 
 As credenciais são usadas somente para autenticar a sessão no SIGA Edu. Os testes automatizados não acessam o sistema acadêmico.
 
+## TLS do SIGA Edu
+
+O SIGA Edu atualmente não entrega toda a cadeia de certificados necessária para alguns ambientes Ruby. A gem inclui os certificados públicos RNP ICPEdu GR46 e GlobalSign Root R46 para completar essa cadeia, mantendo a verificação TLS e de hostname ativas.
+
 ## Desenvolvimento
 
 Depois de clonar o repositório, instale as dependências com `bundle install` e rode a suíte com:
