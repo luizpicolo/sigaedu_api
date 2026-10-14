@@ -35,4 +35,10 @@ RSpec.describe SigaeduApi::Api do
     api = described_class.new(mechanize: mechanize)
     expect { api.form("user", "secret") }.to raise_error("Login form not found")
   end
+
+  it "exposes the supplied client for authenticated requests" do
+    api = described_class.new(mechanize: mechanize)
+
+    expect(api.mechanize).to be(mechanize)
+  end
 end

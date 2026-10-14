@@ -26,4 +26,20 @@ RSpec.describe SigaeduApi::AcademicRegistry::StudentData do
     expect(student_data.get_data("123")).to have_attributes(size: 1)
     expect(student_data.get_data("124")).to have_attributes(size: 1)
   end
+
+  it "authenticates with the credentials supplied at initialization" do
+    described_class.new("user", "secret")
+
+    expect(api).to have_received(:form).with("user", "secret")
+  end
+
+  it "reads cells only from the academic data table" do
+    page_with_other_table = instance_double("Page", body: <<~HTML)
+      <table><tbody><tr><td>other data</td></tr></tbody></table>
+      <table class="table"><tbody><tr><td>ignored</td><td>2025.1-B</td></tr></tbody></table>
+    HTML
+    student_data = described_class.new("user", "secret")
+
+    expect(student_data.attribute_by_position(page_with_other_table, 1)).to eq("2025.1-B")
+  end
 end

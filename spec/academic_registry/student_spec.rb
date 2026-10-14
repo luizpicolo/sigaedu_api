@@ -36,4 +36,34 @@ RSpec.describe SigaeduApi::AcademicRegistry::Student do
     expect(student.get_name(nil, 8)).to eq("")
     expect(student.get_id(nil, 8)).to eq("")
   end
+
+  it "extracts a name, identifier, and photo URL from a student row" do
+    student = described_class.new("user", "secret")
+
+    expect(student.get_name(student_row, 8)).to eq("Ana Silva")
+    expect(student.get_id(student_row, 8)).to eq("123")
+    expect(student.get_image(student_row)).to end_with("/456")
+  end
+
+  it "does not request student data when no courses are available" do
+    allow(SigaeduApi::AcademicRegistry::Course).to receive(:new).and_return(instance_double("Course", get_data: []))
+
+    expect(described_class.new("user", "secret").get_data("Campo Grande")).to eq([])
+    expect(mechanize).not_to have_received(:get)
+  end
+
+  it "skips rows without an enrollment date" do
+    empty_row = Array.new(14, "")
+    allow(mechanize).to receive(:get).and_return(instance_double("Page", body: { aaData: [empty_row] }.to_json))
+
+    expect(described_class.new("user", "secret").get_data).to eq([])
+  end
+
+  it "uses the course identifier in the student endpoint" do
+    described_class.new("user", "secret").get_data
+
+    expect(mechanize).to have_received(:get).with(
+      "https://academico.ifms.edu.br/administrativo/alunos/panorama/datatable_lista_estudante_por_campus/10"
+    )
+  end
 end

@@ -24,4 +24,19 @@ RSpec.describe SigaeduApi::AcademicRegistry::Course do
     courses = described_class.new("user", "secret").get_data
     expect(courses.map { |course| course[:id] }).to eq(%w[10 11])
   end
+
+  it "authenticates with the credentials supplied at initialization" do
+    described_class.new("user", "secret")
+
+    expect(api).to have_received(:form).with("user", "secret")
+  end
+
+  it "ignores options that do not describe a course" do
+    allow(mechanize).to receive(:get).and_return(instance_double("Page", body: <<~HTML))
+      <option value="12">Campo Grande &gt; </option>
+      <option value="13">Campo Grande &gt; Curso sem oferta</option>
+    HTML
+
+    expect(described_class.new("user", "secret").get_data).to eq([])
+  end
 end
