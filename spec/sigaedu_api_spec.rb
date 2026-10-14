@@ -1,5 +1,5 @@
 RSpec.describe SigaeduApi do
   it "has a version number" do
-    expect(SigaeduApi::VERSION).not_to be nil
+    expect(SigaeduApi::VERSION).to match(/\A\d+\.\d+\.\d+\z/)
   end
 end

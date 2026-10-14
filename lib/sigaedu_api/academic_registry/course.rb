@@ -8,24 +8,25 @@ module SigaeduApi
         @uri = 'https://academico.ifms.edu.br/administrativo/alunos/panorama'
         @login = login
         @password = password
-        @api = Api.new
+        @api = SigaeduApi::Api.new
         @api.form(login, password)
       end
 
       def get_data(campus = nil)
         array = []
         page = @api.mechanize.get(@uri)
-        data = page.body.scan(/<option value="([1-9]+)">(\D+)<\/option>/)
-        data.each do |d|
-          course = d.last.force_encoding('UTF-8')
-          if course.scan(/([^>]*)&gt;/)[0][0].strip == campus
-            new_data = course.scan(/;([^>]*) -([^>]*)/).first
-            array << {
-              'id': d[0],
-              'curso': new_data[0].strip,
-              'tipo_oferta': new_data[1].strip
-            }
-          end
+        page.body.scan(/<option value="(\d+)">(.*?)<\/option>/m).each do |id, option|
+          campus_name, course_details = option.force_encoding("UTF-8").split("&gt;", 2)
+          next if campus && campus_name&.strip != campus
+
+          course_name, offer_type = course_details.to_s.split(";", 2).last.to_s.split(" - ", 2)
+          next if course_name.empty? || offer_type.nil?
+
+          array << {
+            id: id,
+            curso: course_name.strip,
+            tipo_oferta: offer_type.strip
+          }
         end
 
         array

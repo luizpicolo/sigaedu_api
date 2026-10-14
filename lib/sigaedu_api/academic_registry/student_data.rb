@@ -5,11 +5,10 @@ module SigaeduApi
   module AcademicRegistry
     class StudentData
       def initialize(login, password)
-        @uri = 'https://academico.ifms.edu.br/administrativo/alunos/ficha_estudante/'
+        @uri = 'https://academico.ifms.edu.br/administrativo/alunos/ficha_estudante'
         @login = login
-        @student_data = []
         @password = password
-        @api = Api.new
+        @api = SigaeduApi::Api.new
         @api.form(login, password)
       end
 
@@ -21,15 +20,11 @@ module SigaeduApi
       def get_data(student_id = nil)
         uri = "#{@uri}/#{student_id}/dados_academicos"
         page = @api.mechanize.get(uri)
-        attribute_by_position(page, 1)
-        
-        @student_data << {
+        [{
           'id_estudante': student_id,
           'turma': attribute_by_position(page, 1)
-        }
-
-        @student_data
-      end    
+        }]
+      end
     end
   end
 end

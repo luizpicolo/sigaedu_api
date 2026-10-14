@@ -1,43 +1,48 @@
 # SigaeduApi
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/sigaedu_api`. To experiment with that code, run `bin/console` for an interactive prompt.
+Cliente Ruby para consultar dados acadêmicos do SIGA Edu do IFMS.
 
-TODO: Delete this and the text above, and describe your gem
+## Requisitos
 
-## Installation
+- Ruby 3.1 ou superior
 
-Add this line to your application's Gemfile:
+## Instalação
+
+Adicione a gem ao `Gemfile` da aplicação:
 
 ```ruby
-gem 'sigaedu_api'
+gem "sigaedu_api"
 ```
 
-And then execute:
+Em seguida, execute `bundle install`.
 
-    $ bundle
+## Uso
 
-Or install it yourself as:
+```ruby
+require "sigaedu_api"
 
-    $ gem install sigaedu_api
+courses = SigaeduApi::AcademicRegistry::Course.new(login, password)
+courses.get_data("Campo Grande")
 
-## Usage
+students = SigaeduApi::AcademicRegistry::Student.new(login, password)
+students.get_data("Campo Grande")
 
-TODO: Write usage instructions here
+student_data = SigaeduApi::AcademicRegistry::StudentData.new(login, password)
+student_data.get_data(student_id)
+```
 
-## Development
+As credenciais são usadas somente para autenticar a sessão no SIGA Edu. Os testes automatizados não acessam o sistema acadêmico.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+## Desenvolvimento
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Depois de clonar o repositório, instale as dependências com `bundle install` e rode a suíte com:
 
-## Contributing
+```sh
+bundle exec rake spec
+```
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/sigaedu_api. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+O CI executa os specs em Ruby 3.1, 3.2 e 3.3.
 
-## License
+## Licença
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the SigaeduApi project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/sigaedu_api/blob/master/CODE_OF_CONDUCT.md).
+Distribuída sob a licença MIT. Consulte [LICENSE.txt](LICENSE.txt).

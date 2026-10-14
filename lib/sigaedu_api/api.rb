@@ -1,19 +1,22 @@
-class Api
-  def initialize
-    @mechanize = Mechanize.new
-    @mechanize.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    @mechanize.get("https://academico.ifms.edu.br/administrativo/")
-  end
+module SigaeduApi
+  class Api
+    BASE_URL = "https://academico.ifms.edu.br/administrativo/".freeze
 
-  def mechanize
-    @mechanize
-  end
+    def initialize(mechanize: Mechanize.new)
+      @mechanize = mechanize
+      @mechanize.get(BASE_URL)
+    end
 
-  def form(login, password)
-    f = @mechanize.page.forms.first
-    f.field_with(name: "data[Usuario][login]").value = login
-    f.field_with(name: "data[Usuario][senha]").value = password
-    f.method = "POST"
-    f.submit
+    attr_reader :mechanize
+
+    def form(login, password)
+      form = @mechanize.page.forms.first
+      raise "Login form not found" unless form
+
+      form.field_with(name: "data[Usuario][login]").value = login
+      form.field_with(name: "data[Usuario][senha]").value = password
+      form.method = "POST"
+      form.submit
+    end
   end
 end

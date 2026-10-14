@@ -6,10 +6,9 @@ module SigaeduApi
     class Student
       def initialize(login, password)
         @uri = 'https://academico.ifms.edu.br/administrativo/alunos/panorama'
-        @students = []
         @login = login
         @password = password
-        @api = Api.new
+        @api = SigaeduApi::Api.new
         @api.form(login, password)
       end
 
@@ -30,6 +29,7 @@ module SigaeduApi
       end
 
       def get_data(campus = nil)
+        students = []
         courses = SigaeduApi::AcademicRegistry::Course.new(@login, @password)
         courses.get_data(campus).each do |course|
           uri = "#{@uri}/datatable_lista_estudante_por_campus/#{course[:id]}"
@@ -37,7 +37,7 @@ module SigaeduApi
           _data = JSON.parse(page.body)['aaData']
           _data.each do |data|
             if attribute_by_position(data, 0) != ""
-              @students << {
+              students << {
                 'id': get_id(data, 8),
                 'ingresso': attribute_by_position(data, 0),
                 'curso': attribute_by_position(data, 1) ,
@@ -59,7 +59,7 @@ module SigaeduApi
           end
         end
 
-        @students
+        students
       end
     end
   end
